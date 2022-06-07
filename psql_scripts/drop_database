@@ -1,0 +1,7 @@
+#!/bin/bash
+
+DATABASE=$(cat database_name)
+
+echo "Dropando banco de dados" &&
+sudo su -c "psql -c \"DROP DATABASE $DATABASE\";" postgres;
+
