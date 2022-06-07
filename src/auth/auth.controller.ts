@@ -1,18 +1,22 @@
-import { Controller, Post } from '@nestjs/common';
-import { DbService } from 'src/db/db.service';
+import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { SignInDto, SignUpDto } from './auth.dto';
+import { AuthService } from './auth.service';
 
 @Controller()
 export class AuthController {
-  constructor(private readonly dbService: DbService) {}
+  constructor(private readonly authService: AuthService) {}
 
+  @HttpCode(200)
   @Post('/signin')
-  signIn(): string {
-    this.dbService.query('SELECT * FROM users;', []);
-    return 'signin in...';
+  signIn(@Body() { email, password }: SignInDto) {
+    const result = this.authService.SignIn(email);
+    return result;
   }
 
+  @HttpCode(201)
   @Post('/signup')
-  signUp(): string {
-    return 'signup up...';
+  signUp(@Body() signUpDto: SignUpDto) {
+    const result = this.authService.SignUp();
+    return result;
   }
 }
