@@ -6,7 +6,6 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(@Request() req) {
-    console.log(req.user);
     return 'Jwt restricted route example';
   }
 }

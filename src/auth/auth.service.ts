@@ -1,6 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserInfo } from 'src/common/types';
+import { UserInfo, UserModel } from 'src/common/types';
 import { UserService } from 'src/user/user.service';
 import { compareSync } from 'bcrypt';
 
@@ -17,7 +17,7 @@ export class AuthService {
     return user;
   }
 
-  async signUserIn(user: any) {
+  async signUserIn(user: UserModel) {
     const payload = { name: user.name, email: user.email, sub: user.id };
     return {
       token: this.jwtService.sign(payload),
