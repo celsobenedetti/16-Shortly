@@ -13,10 +13,7 @@ export class DbService {
     });
   }
 
-  public async query<T>(
-    queryString: string,
-    data: Array<T>,
-  ): Promise<QueryResult> {
+  async query<T>(queryString: string, data: Array<T>): Promise<QueryResult> {
     const connection = await this.createConnection();
     const result = await connection.query(queryString, data);
     console.log(queryString, data);
