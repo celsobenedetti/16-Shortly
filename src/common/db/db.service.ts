@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import 'dotenv/config';
-import { Pool } from 'pg';
+import { Pool, QueryResult } from 'pg';
 
 @Injectable()
 export class DbService {
-  private async createConnection() {
+  private async createConnection(): Promise<Pool> {
     return new Pool({
       connectionString: process.env.DATABASE_URL,
       ssl: {
@@ -13,7 +13,10 @@ export class DbService {
     });
   }
 
-  public async query<T>(queryString: string, data: Array<T>) {
+  public async query<T>(
+    queryString: string,
+    data: Array<T>,
+  ): Promise<QueryResult> {
     const connection = await this.createConnection();
     const result = await connection.query(queryString, data);
     console.log(queryString, data);

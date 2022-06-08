@@ -14,9 +14,9 @@ export class UserRepository {
     return rows[0];
   }
 
-  async insertUser(userInfo: UserInfo) {
+  async insertUser(userInfo: UserInfo): Promise<void> {
     const { name, email, password } = userInfo;
-    return this.db.query(
+    await this.db.query(
       `INSERT INTO users (name, email, password) VALUES ($1, $2, $3);`,
       [name, email, password],
     );

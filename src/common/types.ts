@@ -1,3 +1,5 @@
+import { Request } from 'express';
+
 export type UserInfo = {
   name: string;
   email: string;
@@ -10,3 +12,11 @@ export type UserModel = {
   email: string;
   password: string;
 };
+
+export type TokenObject = {
+  token: string;
+};
+
+export interface ReqWithUser extends Request {
+  user: UserModel;
+}

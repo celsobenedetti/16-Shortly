@@ -11,9 +11,9 @@ export class UserService {
     return this.repository.findUserByEmail(email);
   }
 
-  async create(userInfo: UserInfo) {
+  async create(userInfo: UserInfo): Promise<void> {
     const hashedPassword = hashSync(userInfo.password, 10);
-    return this.repository.insertUser({
+    await this.repository.insertUser({
       ...userInfo,
       password: hashedPassword,
     });

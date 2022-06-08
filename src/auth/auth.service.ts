@@ -1,8 +1,8 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserInfo, UserModel } from 'src/common/types';
-import { UserService } from 'src/user/user.service';
 import { compareSync } from 'bcrypt';
+import { TokenObject, UserInfo, UserModel } from 'src/common/types';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class AuthService {
@@ -17,17 +17,17 @@ export class AuthService {
     return user;
   }
 
-  async signUserIn(user: UserModel) {
+  async signUserIn(user: UserModel): Promise<TokenObject> {
     const payload = { name: user.name, email: user.email, sub: user.id };
     return {
       token: this.jwtService.sign(payload),
     };
   }
 
-  async signUserUp(userInfo: UserInfo) {
+  async signUserUp(userInfo: UserInfo): Promise<void> {
     const existingUser = await this.userService.findOneByEmail(userInfo.email);
     if (existingUser) throw new ConflictException();
 
-    return this.userService.create(userInfo);
+    await this.userService.create(userInfo);
   }
 }
