@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { SignUpDto } from './auth.dto';
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from './local-auth.guard';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @Controller()
 export class AuthController {
