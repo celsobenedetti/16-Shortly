@@ -30,4 +30,12 @@ export class UrlsService {
 
     await this.repository.deleteUrlById(urlId);
   }
+
+  async updateVisitCount(shortUrl: string): Promise<string> {
+    const urlInfo = await this.repository.findOneByShortUrl(shortUrl);
+    if (!urlInfo) throw new NotFoundException('Url not found');
+
+    await this.repository.updateVisitCount(urlInfo.id);
+    return urlInfo.url;
+  }
 }

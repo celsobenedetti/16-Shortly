@@ -7,9 +7,11 @@ import {
   Param,
   Post,
   Request,
+  Response,
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
+import { Response as ExpressRes } from 'express';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { IUrlResult, ReqWithUser, ShortUrlObj } from 'src/common/types';
 import { JoiValidationPipe } from 'src/common/validation/joi-validation.pipe';
@@ -22,6 +24,10 @@ type urlBody = {
 
 type urlId = {
   id: number;
+};
+
+type shortUrlParam = {
+  shortUrl: string;
 };
 
 @Controller('urls')
@@ -44,8 +50,12 @@ export class UrlsController {
   }
 
   @Get('open/:shortUrl')
-  async redirectToUrl() {
-    return 'redirectToUrl handler';
+  async visitUrl(
+    @Param() { shortUrl }: shortUrlParam,
+    @Response() res: ExpressRes,
+  ): Promise<void> {
+    const url = await this.urlsService.updateVisitCount(shortUrl);
+    res.redirect(url);
   }
 
   @Delete(':id')

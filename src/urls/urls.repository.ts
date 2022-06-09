@@ -17,6 +17,13 @@ export class UrlsRepository {
     return rows[0];
   }
 
+  async findOneByShortUrl(shortUrl: string): Promise<UrlModel> {
+    const { rows } = await this.db.query(`SELECT * FROM urls WHERE "shortUrl" = $1;`, [
+      shortUrl,
+    ]);
+    return rows[0];
+  }
+
   async createShortenedUrl(urlInfo: IUrlInfo): Promise<void> {
     const { userId, shortUrl, url } = urlInfo;
     await this.db.query(
@@ -27,5 +34,12 @@ export class UrlsRepository {
 
   async deleteUrlById(urlId: number): Promise<void> {
     await this.db.query(`DELETE FROM urls WHERE id = $1;`, [urlId]);
+  }
+
+  async updateVisitCount(urlId: number): Promise<void> {
+    await this.db.query(
+      `UPDATE urls SET "visitCount" = "visitCount" + 1 WHERE id = $1;`,
+      [urlId],
+    );
   }
 }
