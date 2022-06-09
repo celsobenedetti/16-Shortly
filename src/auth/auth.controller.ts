@@ -5,10 +5,13 @@ import {
   Post,
   Request,
   UseGuards,
+  UsePipes,
 } from '@nestjs/common';
 import { ReqWithUser, TokenObject } from 'src/common/types';
+import { JoiValidationPipe } from 'src/common/validation/joi-validation.pipe';
 import { SignUpDto } from './auth.dto';
 import { AuthService } from './auth.service';
+import { signUpSchema } from './auth.validation';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @Controller()
@@ -24,7 +27,8 @@ export class AuthController {
 
   @HttpCode(201)
   @Post('/signup')
-  async signUp(@Body() signUpDto: SignUpDto): Promise<void> {
+  @UsePipes(new JoiValidationPipe(signUpSchema))
+  async signUp(@Body() signUpDto: any): Promise<void> {
     await this.authService.signUserUp(signUpDto);
   }
 }
