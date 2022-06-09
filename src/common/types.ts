@@ -13,13 +13,6 @@ export type UserModel = {
   password: string;
 };
 
-export type SignUpModel = {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
-
 export type TokenObject = {
   token: string;
 };

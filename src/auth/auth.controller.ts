@@ -7,11 +7,21 @@ import {
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
-import { ReqWithUser, SignUpModel, TokenObject } from 'src/common/types';
+import { ReqWithUser, TokenObject } from 'src/common/types';
 import { JoiValidationPipe } from 'src/common/validation/joi-validation.pipe';
 import { AuthService } from './auth.service';
 import { signInSchema, signUpSchema } from './auth.validation';
 import { LocalAuthGuard } from './guards/local-auth.guard';
+
+interface SignInModel {
+  email: string;
+  password: string;
+}
+
+interface SignUpModel extends SignInModel {
+  name: string;
+  confirmPassword: string;
+}
 
 @Controller()
 export class AuthController {
@@ -21,7 +31,10 @@ export class AuthController {
   @HttpCode(200)
   @UseGuards(LocalAuthGuard)
   @UsePipes(new JoiValidationPipe(signInSchema))
-  async signIn(@Request() req: ReqWithUser): Promise<TokenObject> {
+  async signIn(
+    @Body() _body: SignInModel,
+    @Request() req: ReqWithUser,
+  ): Promise<TokenObject> {
     return this.authService.signUserIn(req.user);
   }
 
