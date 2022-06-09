@@ -7,10 +7,9 @@ export class UserRepository {
   constructor(private readonly db: DbService) {}
 
   async findUserByEmail(email: string): Promise<UserInfo> {
-    const { rows } = await this.db.query(
-      `SELECT * FROM users WHERE email = $1;`,
-      [email],
-    );
+    const { rows } = await this.db.query(`SELECT * FROM users WHERE email = $1;`, [
+      email,
+    ]);
     return rows[0];
   }
 

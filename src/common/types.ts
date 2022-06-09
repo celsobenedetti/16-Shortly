@@ -17,6 +17,10 @@ export type TokenObject = {
   token: string;
 };
 
+export type ShortUrlObj = {
+  shortUrl: string;
+};
+
 export interface ReqWithUser extends Request {
   user: UserModel;
 }
