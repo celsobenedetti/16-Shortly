@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { nanoid } from 'nanoid';
-import { ShortUrlObj } from 'src/common/types';
+import { IUrlResult, ShortUrlObj } from 'src/common/types';
 import { UrlsRepository } from './urls.repository';
 
 @Injectable()
@@ -11,5 +11,23 @@ export class UrlsService {
     const shortUrl = nanoid(8);
     await this.repository.createShortenedUrl({ userId, shortUrl, url });
     return { shortUrl };
+  }
+
+  async findOne(urlId: number): Promise<IUrlResult> {
+    const urlInfo = await this.repository.findOneById(urlId);
+    if (!urlInfo) throw new NotFoundException();
+
+    const { id, shortUrl, url } = urlInfo;
+    return { id, shortUrl, url };
+  }
+
+  async deleteOne(urlId: number, userId: number): Promise<void> {
+    const urlInfo = await this.repository.findOneById(urlId);
+
+    if (!urlInfo) throw new NotFoundException('Url not found');
+    if (urlInfo.userId !== userId)
+      throw new UnauthorizedException('Url does not belong to user');
+
+    await this.repository.deleteUrlById(urlId);
   }
 }

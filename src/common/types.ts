@@ -1,4 +1,5 @@
 import { Request } from 'express';
+import { QueryResult } from 'pg';
 
 export type UserInfo = {
   name: string;
@@ -13,6 +14,12 @@ export type UserModel = {
   password: string;
 };
 
+export interface IUrlResult {
+  id: number;
+  shortUrl: string;
+  url: string;
+}
+
 export type TokenObject = {
   token: string;
 };
@@ -20,6 +27,15 @@ export type TokenObject = {
 export type ShortUrlObj = {
   shortUrl: string;
 };
+
+export interface UrlModel extends QueryResult {
+  id: number;
+  shortUrl: string;
+  url: string;
+  visitCount: number;
+  userId: number;
+  createdAt: Date;
+}
 
 export interface ReqWithUser extends Request {
   user: UserModel;

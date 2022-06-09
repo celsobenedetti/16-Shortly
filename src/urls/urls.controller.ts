@@ -3,19 +3,25 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  Param,
   Post,
   Request,
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { ReqWithUser, ShortUrlObj } from 'src/common/types';
+import { IUrlResult, ReqWithUser, ShortUrlObj } from 'src/common/types';
 import { JoiValidationPipe } from 'src/common/validation/joi-validation.pipe';
 import { UrlsService } from './urls.service';
 import { shortenUrlSchema } from './urls.validation';
 
 type urlBody = {
   url: string;
+};
+
+type urlId = {
+  id: number;
 };
 
 @Controller('urls')
@@ -33,8 +39,8 @@ export class UrlsController {
   }
 
   @Get(':id')
-  async findOne() {
-    return 'findOne url handler';
+  async findOne(@Param() { id }: urlId): Promise<IUrlResult> {
+    return this.urlsService.findOne(id);
   }
 
   @Get('open/:shortUrl')
@@ -43,7 +49,9 @@ export class UrlsController {
   }
 
   @Delete(':id')
-  async deleteOne() {
-    return 'deleteOne url handler';
+  @HttpCode(204)
+  @UseGuards(JwtAuthGuard)
+  async deleteOne(@Param() { id }: urlId, @Request() req: ReqWithUser): Promise<void> {
+    await this.urlsService.deleteOne(id, req.user.id);
   }
 }
