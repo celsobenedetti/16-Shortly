@@ -8,7 +8,7 @@ type UrlInfo = {
 };
 
 @Injectable()
-export class UrlRepository {
+export class UrlsRepository {
   constructor(private readonly db: DbService) {}
 
   async createShortenedUrl(urlInfo: UrlInfo): Promise<void> {
