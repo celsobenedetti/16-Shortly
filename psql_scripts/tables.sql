@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS "users"(
 CREATE TABLE IF NOT EXISTS "urls"(
   "id" SERIAL PRIMARY KEY,
   "shortUrl" varchar (255) NOT NULL UNIQUE,
-  "url" varchar(255) NOT NULL UNIQUE,
+  "url" varchar(255) NOT NULL,
 	"visitCount" integer NOT NULL DEFAULT 0,
   "userId" integer NOT NULL,
   "createdAt" timestamp NOT NULL DEFAULT now(),

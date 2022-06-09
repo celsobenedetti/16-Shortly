@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { QueryResult } from 'pg';
 import { DbService } from 'src/common/db/db.service';
 
 type UrlInfo = {
@@ -10,6 +11,11 @@ type UrlInfo = {
 @Injectable()
 export class UrlsRepository {
   constructor(private readonly db: DbService) {}
+
+  async findOneByUrl(url: string): Promise<QueryResult> {
+    const { rows } = await this.db.query(`SELECT * FROM urls WHERE url = $1;`, [url]);
+    return rows[0];
+  }
 
   async createShortenedUrl(urlInfo: UrlInfo): Promise<void> {
     const { userId, shortUrl, url } = urlInfo;
