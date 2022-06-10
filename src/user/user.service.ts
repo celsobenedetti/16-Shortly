@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { hashSync } from 'bcrypt';
-import { UserInfo } from 'src/common/types';
+import { RankingResult, UserInfo, UserUrlInfo } from 'src/common/types';
 import { UserRepository } from './user.repository';
 
 @Injectable()
@@ -17,5 +17,16 @@ export class UserService {
       ...userInfo,
       password: hashedPassword,
     });
+  }
+
+  async findUserInfo(userId: number): Promise<UserUrlInfo> {
+    const result = await this.repository.findUserInfo(userId);
+    if (!result) throw new NotFoundException('User not found');
+
+    return result;
+  }
+
+  async getRanking(): Promise<RankingResult> {
+    return this.repository.getUserRanking();
   }
 }

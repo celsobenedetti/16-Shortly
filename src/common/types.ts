@@ -7,6 +7,29 @@ export type UserInfo = {
   password: string;
 };
 
+type UrlInfo = {
+  id: number;
+  shortUrl: string;
+  url: string;
+  visitCount: number;
+};
+
+export type UserUrlInfo = {
+  id: number;
+  name: string;
+  visitCount: number;
+  shortenedUrls: UrlInfo[];
+};
+
+type UserRank = {
+  id: number;
+  name: string;
+  linksCount: number;
+  visitCount: number;
+};
+
+export type RankingResult = UserRank[];
+
 export type UserModel = {
   id: number;
   name: string;
