@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { hashSync } from 'bcrypt';
-import { UserInfo } from 'src/common/types';
+import { UserInfo, UserUrlInfo } from 'src/common/types';
 import { UserRepository } from './user.repository';
 
 @Injectable()
@@ -9,6 +9,10 @@ export class UserService {
 
   async findOneByEmail(email: string): Promise<UserInfo> {
     return this.repository.findUserByEmail(email);
+  }
+
+  async findUserInfo(userId: number): Promise<UserUrlInfo> {
+    return this.repository.findUserInfo(userId);
   }
 
   async create(userInfo: UserInfo): Promise<void> {

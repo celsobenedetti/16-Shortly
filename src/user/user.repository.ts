@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DbService } from 'src/common/db/db.service';
-import { UserInfo } from 'src/common/types';
+import { UserInfo, UserUrlInfo } from 'src/common/types';
 
 @Injectable()
 export class UserRepository {
@@ -10,6 +10,25 @@ export class UserRepository {
     const { rows } = await this.db.query(`SELECT * FROM users WHERE email = $1;`, [
       email,
     ]);
+    return rows[0];
+  }
+
+  async findUserInfo(userId: number): Promise<UserUrlInfo> {
+    const { rows } = await this.db.query(
+      `SELECT us.id, us.name, SUM(ur."visitCount") as "visitCount",
+      json_agg(json_build_object(
+        'id', ur.id,
+        'shortUrl', ur."shortUrl",
+        'url', ur.url,
+        'visitCount', ur."visitCount"
+      )) as "shortenedUrls"
+      FROM users us JOIN urls ur  
+      ON ur."userId" = us.id
+      WHERE us.id = $1
+      GROUP BY us.id;
+      `,
+      [userId],
+    );
     return rows[0];
   }
 

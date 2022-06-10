@@ -7,6 +7,20 @@ export type UserInfo = {
   password: string;
 };
 
+type UrlInfo = {
+  id: number;
+  shortUrl: string;
+  url: string;
+  visitCount: number;
+};
+
+export type UserUrlInfo = {
+  id: number;
+  name: string;
+  visitCount: number;
+  shortenedUrls: UrlInfo[];
+};
+
 export type UserModel = {
   id: number;
   name: string;
