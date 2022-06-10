@@ -11,6 +11,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
+  //used by local.strategy.ts on local email/password auth
   async validateUser(email: string, password: string): Promise<UserInfo> {
     const user = await this.userService.findOneByEmail(email);
     if (!user || !compareSync(password, user.password)) return null;
