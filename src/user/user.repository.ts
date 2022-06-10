@@ -22,7 +22,7 @@ export class UserRepository {
         'url', ur.url,
         'visitCount', ur."visitCount"
       )) as "shortenedUrls"
-      FROM users us JOIN urls ur  
+      FROM users us LEFT JOIN urls ur  
       ON ur."userId" = us.id
       WHERE us.id = $1
       GROUP BY us.id;
