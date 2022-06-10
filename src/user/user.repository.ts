@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DbService } from 'src/common/db/db.service';
-import { UserInfo, UserUrlInfo } from 'src/common/types';
+import { RankingResult, UserInfo, UserUrlInfo } from 'src/common/types';
 
 @Injectable()
 export class UserRepository {
@@ -11,6 +11,14 @@ export class UserRepository {
       email,
     ]);
     return rows[0];
+  }
+
+  async insertUser(userInfo: UserInfo): Promise<void> {
+    const { name, email, password } = userInfo;
+    await this.db.query(
+      `INSERT INTO users (name, email, password) VALUES ($1, $2, $3);`,
+      [name, email, password],
+    );
   }
 
   async findUserInfo(userId: number): Promise<UserUrlInfo> {
@@ -32,11 +40,16 @@ export class UserRepository {
     return rows[0];
   }
 
-  async insertUser(userInfo: UserInfo): Promise<void> {
-    const { name, email, password } = userInfo;
-    await this.db.query(
-      `INSERT INTO users (name, email, password) VALUES ($1, $2, $3);`,
-      [name, email, password],
+  async getUserRanking(): Promise<RankingResult> {
+    const { rows } = await this.db.query(
+      `SELECT us.id, us.name,COUNT(ur.id) as "linksCount", SUM(ur."visitCount") as "visitCount"
+      FROM users us LEFT JOIN urls ur
+      ON ur."userId" = us.id
+      GROUP BY us.id
+      ORDER BY "visitCount"
+      LIMIT 10;`,
+      [],
     );
+    return rows;
   }
 }

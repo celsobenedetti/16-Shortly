@@ -21,6 +21,15 @@ export type UserUrlInfo = {
   shortenedUrls: UrlInfo[];
 };
 
+type UserRank = {
+  id: number;
+  name: string;
+  linksCount: number;
+  visitCount: number;
+};
+
+export type RankingResult = UserRank[];
+
 export type UserModel = {
   id: number;
   name: string;
