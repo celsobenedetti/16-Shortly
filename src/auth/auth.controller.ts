@@ -39,7 +39,6 @@ export class AuthController {
   }
 
   @Post('/signup')
-  @HttpCode(201)
   @UsePipes(new JoiValidationPipe(signUpSchema))
   async signUp(@Body() signUpInfo: SignUpModel): Promise<void> {
     await this.authService.signUserUp(signUpInfo);

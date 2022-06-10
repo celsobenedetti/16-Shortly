@@ -4,7 +4,7 @@ import 'dotenv/config';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 type Payload = {
-  sub: number;
+  sub: number; //"subject" is the userId
   name: string;
   email: string;
 };
