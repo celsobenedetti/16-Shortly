@@ -51,7 +51,7 @@
   - [X]  Implemente o *back-end* da aplicação em **Node + Express** seguindo a arquitetura de *routes*, *controllers* e *middlewares*.
   - [X]  Dados sensíveis (como senhas) devem estar criptografadas.
   - [X]  Proteja sua aplicação contra ataques do tipo *SQL Injection*.
-  - [ ]  Faça *deploy* do *back-end* no Heroku (+ Heroku Postgres).
+  - [X]  Faça *deploy* do *back-end* no Heroku (+ Heroku Postgres).
 
 ## ☑️ Bônus
 
@@ -59,4 +59,3 @@
   - [X]  Generalize a validação de *schemas* em um único *middleware*.
   - [ ]  Desenvolva o front-end da aplicação 
   - [ ]  Faça o deploy da aplicação na Vercel
-  
