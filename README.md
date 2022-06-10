@@ -14,7 +14,6 @@
   <div align="center">
 
    ![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?logo=nestjs&logoColor=white&style=for-the-badge)
-   ![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)
    ![Postgres](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 
   </div>
