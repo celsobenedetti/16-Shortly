@@ -26,7 +26,7 @@
   - Applied fundamental NestJS concepts, like modules, controllers, services, guards and pipes
   - Implemented [Passport.js](https://www.passportjs.org/) `local` and `jwt` auth strategies alongside NestJS guards
   - Studied and applied patterns like **singleton**, **dependency injection** an **IOC**
-  - New Postgres concepts like `json_agg` and `json_build_object`
+  - New Postgres features like `json_agg` and `json_build_object`
    
 ## Routes
 
