@@ -23,7 +23,7 @@ export class UserRepository {
 
   async findUserInfo(userId: number): Promise<UserUrlInfo> {
     const { rows } = await this.db.query(
-      `SELECT us.id, us.name, SUM(ur."visitCount") as "visitCount",
+      `SELECT us.id, us.name, COALESCE(SUM(ur."visitCount"), 0) as "visitCount",
       json_agg(json_build_object(
         'id', ur.id,
         'shortUrl', ur."shortUrl",
@@ -42,7 +42,7 @@ export class UserRepository {
 
   async getUserRanking(): Promise<RankingResult> {
     const { rows } = await this.db.query(
-      `SELECT us.id, us.name,COUNT(ur.id) as "linksCount", SUM(ur."visitCount") as "visitCount"
+      `SELECT us.id, us.name, COUNT(ur.id) as "linksCount", COALESCE(SUM(ur."visitCount"), 0) as "visitCount"
       FROM users us LEFT JOIN urls ur
       ON ur."userId" = us.id
       GROUP BY us.id
