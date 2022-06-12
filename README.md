@@ -23,7 +23,7 @@
 ## What I Learned
   
   - This was my first go at NestJS
-  - Applied fundamental NestJS concepts, like modules, controllers, services, guards and pipes
+  - Applied fundamental NestJS concepts, like modules, controllers, providers, guards and pipes
   - Implemented [Passport.js](https://www.passportjs.org/) `local` and `jwt` auth strategies alongside NestJS guards
   - Better grasp on concepts like **dependency injection**, **IOC** and **singleton**
   - New Postgres features like `json_agg` and `json_build_object`
